@@ -1,36 +1,22 @@
+
 import { AutomationRequest } from '../types';
-import { apiClient } from './apiClient';
+import { db } from '../db';
 
 export const getRequests = async (): Promise<AutomationRequest[]> => {
-  return await apiClient.get('/requests');
+  // Return all requests sorted by creation date (descending)
+  return await db.requests.orderBy('createdAt').reverse().toArray();
 };
 
 export const createRequest = async (request: AutomationRequest): Promise<void> => {
-    // API generates ID and timestamps, so we strip them if strictly following REST,
-    // but here we just pass the DTO. The backend endpoint expects RequestCreate schema.
-    await apiClient.post('/requests', {
-        title: request.title,
-        description: request.description,
-        priority: request.priority,
-        projectName: request.projectName,
-        revitVersion: request.revitVersion,
-        dueDate: request.dueDate,
-        attachments: request.attachments
-    });
+  await db.requests.add(request);
 };
 
 export const saveRequest = async (request: AutomationRequest): Promise<void> => {
-    // This is typically an UPDATE operation
-    await apiClient.put(`/requests/${request.id}`, {
-        status: request.status,
-        developerNotes: request.developerNotes,
-        resultScript: request.resultScript,
-        aiAnalysis: request.aiAnalysis
-    });
+    await db.requests.put(request);
 };
 
 export const deleteRequest = async (id: string): Promise<void> => {
-  await apiClient.delete(`/requests/${id}`);
+  await db.requests.delete(id);
 };
 
 export const fileToBase64 = (file: File): Promise<string> => {

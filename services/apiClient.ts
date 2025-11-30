@@ -17,10 +17,7 @@ export const apiClient = {
       method: 'GET',
       headers: getHeaders(),
     });
-    if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || res.statusText);
-    }
+    if (!res.ok) throw new Error(await res.text());
     return res.json();
   },
 
@@ -30,10 +27,7 @@ export const apiClient = {
       headers: getHeaders(),
       body: body ? JSON.stringify(body) : undefined,
     });
-    if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || res.statusText);
-    }
+    if (!res.ok) throw new Error(await res.text());
     return res.json();
   },
   
@@ -48,10 +42,7 @@ export const apiClient = {
           headers,
           body: formData
       });
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || res.statusText);
-      }
+      if (!res.ok) throw new Error(await res.text());
       return res.json();
   },
 
@@ -61,10 +52,7 @@ export const apiClient = {
       headers: getHeaders(),
       body: JSON.stringify(body),
     });
-    if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || res.statusText);
-    }
+    if (!res.ok) throw new Error(await res.text());
     return res.json();
   },
 
@@ -73,10 +61,7 @@ export const apiClient = {
       method: 'DELETE',
       headers: getHeaders(),
     });
-    if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || res.statusText);
-    }
+    if (!res.ok) throw new Error(await res.text());
     return res.json();
   }
 };

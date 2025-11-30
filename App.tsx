@@ -7,6 +7,7 @@ import { RequestDetail } from './components/RequestDetail';
 import { Login } from './components/Login';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { getRequests } from './services/storageService';
+import { seedDatabase } from './db';
 import { AutomationRequest, UserRole } from './types';
 
 const AppContent: React.FC = () => {
@@ -16,6 +17,11 @@ const AppContent: React.FC = () => {
   const [loadingRequests, setLoadingRequests] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+  // Initialize DB
+  useEffect(() => {
+    seedDatabase().catch(console.error);
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       if (!user) return;
@@ -23,8 +29,6 @@ const AppContent: React.FC = () => {
       try {
         const data = await getRequests();
         setRequests(data);
-      } catch(e) {
-          console.error("Failed to fetch requests", e);
       } finally {
         setLoadingRequests(false);
       }
