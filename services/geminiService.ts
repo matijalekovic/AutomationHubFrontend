@@ -16,7 +16,9 @@ Your goal is to provide a JSON response with:
 `;
 
 export const analyzeRequestWithGemini = async (request: AutomationRequest): Promise<AIAnalysis> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // Use Vite environment variable structure
+  const apiKey = (import.meta as any).env?.VITE_API_KEY;
+  const ai = new GoogleGenAI({ apiKey: apiKey });
   
   // Prepare contents
   const parts: any[] = [{ text: getSystemPrompt(request) }];
