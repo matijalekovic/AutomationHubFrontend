@@ -641,9 +641,12 @@ app = FastAPI(title="Revit Automation Hub API", version="3.0.0", lifespan=lifesp
 
 app.add_middleware(
     CORSMiddleware,
-    # Wide open for local/dev; tokens are sent via Authorization header, not cookies.
-    allow_origins=["*"],
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
+    allow_origins=[
+        "https://revitautomationhub.onrender.com",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ],
+    allow_origin_regex=None,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
