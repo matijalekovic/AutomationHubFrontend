@@ -1,14 +1,6 @@
 
-<<<<<<< HEAD
-// Prefer Vite env; fall back to production backend; final fallback is localhost for dev
-const API_URL =
-  (import.meta as any).env?.VITE_API_URL ||
-  'https://automationhubbackend.onrender.com' ||
-  'http://localhost:8000';
-=======
-// Check for Vite environment variable first, fall back to localhost for local dev
-const API_URL = (import.meta as any).env?.VITE_API_URL || 'https://automationhubbackend.onrender.com';
->>>>>>> c8f1dfeaf6e57a6b310856466a79de5b85d2d242
+// API base: prefer Vite env var, fallback to local backend for dev
+const API_URL = (import.meta as any).env?.VITE_API_URL ?? "http://localhost:8000";
 
 const buildError = async (res: Response) => {
   try {
@@ -54,7 +46,6 @@ export const apiClient = {
   },
   
   postForm: async (endpoint: string, formData: FormData) => {
-      // Don't set Content-Type header manually for FormData, browser does it with boundary
       const token = sessionStorage.getItem('rah_access_token');
       const headers: any = {};
       if (token) headers['Authorization'] = `Bearer ${token}`;
